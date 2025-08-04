@@ -1,0 +1,302 @@
+EMPLOYEE CODE
+
+import java.util.Scanner;
+public class Lab4One {
+
+    String sname;
+    int Eid;
+    double Basic;
+    double DA;
+    double Gross_Sal;
+    double Net_Sal;
+
+    void read_from_user(Scanner sc) {
+        System.out.print("Enter Employee ID: ");
+        Eid = sc.nextInt();
+        sc.nextLine(); // clear newline character
+        System.out.print("Enter Employee Name: ");
+        sname = sc.nextLine();
+        System.out.print("Enter Basic Salary: ");
+        Basic = sc.nextDouble();
+    }
+
+    public Lab4One(int id, String name, double basic) {
+        Eid = id;
+        sname = name;
+        Basic = basic;
+        compute_net_sal();
+    }
+
+    void compute_net_sal() {
+        DA = 0.52 * Basic;
+        Gross_Sal = Basic + DA;
+        double IT = 0.3 * Gross_Sal;
+        Net_Sal = Gross_Sal - IT;
+    }
+
+    void display() {
+        System.out.println("Employee ID: " + Eid);
+        System.out.println("Employee Name: " + sname);
+        System.out.println("Basic Salary: " + Basic);
+        System.out.println("Gross Salary: " + Gross_Sal);
+        System.out.println("Net Salary: " + Net_Sal);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number of employees: ");
+        int n = sc.nextInt();
+        
+        Lab4One[] employees = new Lab4One[n];
+        for (int i = 0; i < n; i++) // create a temporary Lab4One object with default values
+        	{
+            Lab4One temp = new Lab4One(0, "", 0); // read employee details from user and store them in the temporary object
+            temp.read_from_user(sc); // create a new Lab4One object with the details from temporary and assign it to employees array
+            employees[i] = new Lab4One(temp.Eid, temp.sname, temp.Basic);
+            }
+        System.out.println("\nEmployee Details:"); // print a header for the employee details section
+        for (int i = 0; i < n; i++)// loop through each index from 0 to n-1 to display employee details
+        	{
+            System.out.println("\nEmployee " + (i + 1) + ":");
+            employees[i].display(); // display the details of the employee at index i
+            }
+        sc.close(); // close scanner 
+    }
+}
+
+
+OUTPUT 
+Enter the number of employees: 2
+Enter Employee ID: 4
+Enter Employee Name: abc
+Enter Basic Salary: 60000
+Enter Employee ID: 5
+Enter Employee Name: xyz
+Enter Basic Salary: 40000
+
+Employee Details:
+
+Employee 1:
+Employee ID: 4
+Employee Name: abc
+Basic Salary: 60000.0
+Gross Salary: 91200.0
+Net Salary: 63840.0
+
+Employee 2:
+Employee ID: 5
+Employee Name: xyz
+Basic Salary: 40000.0
+Gross Salary: 60800.0
+Net Salary: 42560.0
+___________________________________________________________
+
+STUDENT CODE 
+
+import java.util.Scanner;
+public class Lab4Two {
+    String sname;
+    int[] marks_array;
+    int total;
+    double avg;
+
+    public Lab4Two(String name, int[] marks) {
+        sname = name;
+        marks_array = marks;
+        compute();
+    }
+
+    void compute() {
+        total = 0;
+        for (int mark : marks_array) {
+            total += mark;
+        }
+        avg = (double) total / marks_array.length;
+    }
+
+    void display() {
+        System.out.println("Student name: " + sname);
+        System.out.print("Marks: ");
+        for (int mark : marks_array) {
+            System.out.print(mark + " ");
+        }
+        System.out.println("\nTotal marks: " + total);
+        System.out.println("Average marks: " + avg);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Ask for student's name
+        System.out.print("Enter student's name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter the number of subjects: ");
+        int numSubjects = sc.nextInt();
+        int[] marks = new int[numSubjects];
+
+        for (int i = 0; i < numSubjects; i++) // Ask for marks for each subject
+        {
+            System.out.print("Enter marks for subject " + (i + 1) + ": ");
+            marks[i] = sc.nextInt();
+        }
+        
+        Lab4Two s1 = new Lab4Two(name, marks); // create a Student_Constructors object with the input data
+        s1.display();
+        sc.close();
+    }
+}
+
+
+OUTPUT 
+Enter student's name: a
+Enter the number of subjects: 4
+Enter marks for subject 1: 60
+Enter marks for subject 2: 80
+Enter marks for subject 3: 76
+Enter marks for subject 4: 83
+Student name: a
+Marks: 60 80 76 83 
+Total marks: 299
+Average marks: 74.75
+
+________________________________________________________________
+
+bank
+
+import java.util.Scanner;
+
+public class Lab4Three {
+ 
+    String depositorName;
+    String accountNumber;
+    String accountType;
+    double balance;
+    static double rateOfInterest = 3.5; // Static data member
+
+    public Lab4Three()// Default constructor
+    {
+        depositorName = "Unknown";
+        accountNumber = "000000";
+        accountType = "Savings";
+        balance = 0.0;
+    }
+
+    public Lab4Three(String depositorName, String accountNumber, String accountType, double balance) // Parameterized constructor
+    {
+        this.depositorName = depositorName;
+        this.accountNumber = accountNumber;
+        this.accountType = accountType;
+        this.balance = balance;
+    }
+
+    public void deposit(double amount) // Method to deposit amount
+    {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited: " + amount);
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
+
+    // Method to withdraw amount after checking for minimum balance
+    public void withdraw(double amount) {
+        double minimumBalance = 500.0; // Example minimum balance
+        if (amount > 0 && balance - amount >= minimumBalance) {
+            balance -= amount;
+            System.out.println("Withdrawn: " + amount);
+        } else {
+            System.out.println("Insufficient balance or invalid withdrawal amount.");
+        }
+    }
+
+    // Method to display all the details of an account holder
+    public void displayDetails() {
+        System.out.println("Depositor Name: " + depositorName);
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Account Type: " + accountType);
+        System.out.println("Balance: " + balance);
+    }
+
+    // Static method to display rate of interest
+    public static void displayRateOfInterest() {
+        System.out.println("Rate of Interest: " + rateOfInterest + "%");
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Using the default constructor
+        Lab4Three defaultAccount = new Lab4Three(); // Create object using default constructor
+        System.out.println("Default Constructor:");
+        defaultAccount.displayDetails();
+        Lab4Three.displayRateOfInterest();
+
+        // Ask for user input for parameterized constructor
+        System.out.print("\nEnter depositor's name: ");
+        String depositorName = sc.nextLine();
+
+        System.out.print("Enter account number: ");
+        String accountNumber = sc.nextLine();
+
+        System.out.print("Enter account type: ");
+        String accountType = sc.nextLine();
+
+        System.out.print("Enter initial balance: ");
+        double balance = sc.nextDouble();
+
+        // Using the parameterized constructor
+        Lab4Three parameterizedAccount = new Lab4Three(depositorName, accountNumber, accountType, balance); // Create object using parameterized constructor
+        System.out.println("\nParameterized Constructor:");
+        parameterizedAccount.displayDetails();
+        Lab4Three.displayRateOfInterest();
+
+        // Demonstrating deposit and withdraw methods
+        System.out.print("\nEnter amount to deposit: ");
+        double depositAmount = sc.nextDouble();
+        parameterizedAccount.deposit(depositAmount);
+
+        System.out.print("Enter amount to withdraw: ");
+        double withdrawAmount = sc.nextDouble();
+        parameterizedAccount.withdraw(withdrawAmount);
+
+        System.out.println("\nAfter Transactions:");
+        parameterizedAccount.displayDetails();
+
+        sc.close(); // Close the scanner
+    }
+}
+
+
+output
+
+Default Constructor:
+Depositor Name: Unknown
+Account Number: 000000
+Account Type: Savings
+Balance: 0.0
+Rate of Interest: 3.5%
+
+Enter depositor's name: abc
+Enter account number: 7584
+Enter account type: savings
+Enter initial balance: 5959
+
+Parameterized Constructor:
+Depositor Name: abc
+Account Number: 7584
+Account Type: savings
+Balance: 5959.0
+Rate of Interest: 3.5%
+
+Enter amount to deposit: 605
+Deposited: 605.0
+Enter amount to withdraw: 90
+Withdrawn: 90.0
+
+After Transactions:
+Depositor Name: abc
+Account Number: 7584
+Account Type: savings
+Balance: 6474.0
